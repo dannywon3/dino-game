@@ -1,6 +1,7 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 document.addEventListener("keydown", jump);
+document.addEventListener("mousedown", jump);
 
 //gotta do collision next
 // random spawn objects
@@ -75,6 +76,7 @@ function update() {
 
         if (i.collision(x, 230 - y, w, h)) {
             stopGame();
+            break;
         }
 
     }
@@ -85,8 +87,12 @@ function update() {
 //jumping
 function jump(event) {
 
-    if (event.code == "Space" && y == 0) {
+    if (event.code == "Space" && y == 0 || event.button == 0 && y == 0) {
         speed = -11;
+    }
+
+    if (event.code == 'r') {
+        startGame();
     }
 };
 
@@ -96,6 +102,20 @@ let gameLoop = setInterval(update, framerate);
 
 function stopGame() {
     clearInterval(gameLoop)
+}
+
+function startGame() {
+    c = document.getElementById("myCanvas");
+    ctx = c.getContext("2d");
+    x = 30;
+    y = 0;
+    w = 40;
+    h = 40;
+    speed = 0;
+    framerate = 33
+    badbois = [];
+    gameLoop = setInterval(update, framerate);
+    createObstacles();
 }
 
 function sleep(ms) {
